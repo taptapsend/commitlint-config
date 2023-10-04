@@ -1,0 +1,33 @@
+on:
+  workflow_call:
+  
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+    branches:
+      - 'master'
+      - 'release'
+      - 'main'
+
+jobs:
+  pr-title-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install Node JS
+        uses: actions/setup-node@v2
+
+      - name: Install commitlint
+        run: npm install commitlint @commitlint/config-conventional
+
+      - name: Lint the PR title
+        run: |
+          echo "${{ github.event.pull_request.title }}" |\
+            npx commitlint --config ./.commitlint.config.js
