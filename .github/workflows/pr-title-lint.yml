@@ -16,11 +16,6 @@ jobs:
   pr-title-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
       - name: Install Node JS
         uses: actions/setup-node@v2
 
