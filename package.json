@@ -1,0 +1,8 @@
+{
+  "name": "commitlint-config",
+  "version": "1.0.0",
+  "description": "jus testing",
+  "main": ".commitlint.config.js",
+  "author": "",
+  "license": "ISC"
+}
