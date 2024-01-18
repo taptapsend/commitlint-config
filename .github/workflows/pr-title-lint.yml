@@ -27,5 +27,7 @@ jobs:
 
       - name: Lint the PR title
         run: |
-          echo "${{ github.event.pull_request.title }}" |\
-            npx commitlint --config ./node_modules/commitlint-config/.commitlint.config.js
+          (cat <<EOF
+          ${{ github.event.pull_request.title }}
+          EOF
+          ) | npx commitlint --config ./node_modules/commitlint-config/.commitlint.config.js
