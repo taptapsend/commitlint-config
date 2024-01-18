@@ -17,3 +17,8 @@ and having to copy paste the same workflow, this repository hosts both of these.
   call-workflow:
     uses: taptapsend/commitlint-config/.github/workflows/pr-title-lint.yml@main
   ```
+
+# How to contribute
+If you want to improve the commitlint rules, just update `.commitlint.config.js`. You can then test by installing commit lint and testing: 
+1. `npm install commitlint @commitlint/config-conventional`
+2. `echo "[TTS-123123] Title I'm testing" | npx commitlint --config .commitlint.config.js`
