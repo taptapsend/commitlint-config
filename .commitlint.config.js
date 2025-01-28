@@ -17,7 +17,7 @@ module.exports = {
             // 1. Match between 2 and 10 'A-Z' (only capital letters)
             // 2. Match '-'
             // 3. Match 1 or more '0-9'
-            const jiraTicketRegex = /^[A-Z]{2,10}-\d+/;
+            const jiraTicketRegex = /^\[?[A-Z]{2,10}-\d+\]?/;
             const finalMessage = parsed.subject || parsed.header;
             return [
               jiraTicketRegex.exec(finalMessage) !== null,
