@@ -20,7 +20,7 @@ module.exports = {
             const jiraTicketRegex = /[A-Z]{2,10}-\d+/;
             const finalMessage = parsed.subject || parsed.header;
             return [
-                jiraTicketRegex.exec(finalMessage) !== null,
+              finalMessage.startsWith(jiraTicketRegex),
               `Subject must start with a JIRA ticket ref like: TTS-3222`,
             ];
           },
