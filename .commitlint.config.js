@@ -14,16 +14,14 @@ module.exports = {
         rules: {
           'must-contain-jira-ticket-ref':  (parsed) => {
             // The rejex for matching a JIRA ticket reference is the following:
-            // 1. Match a '['
-            // 2. Match 1 or more 'A-Z' (only capital letters)
-            // 3. Match '-'
-            // 4. Match 1 or more '0-9'
-            // 5. Match a ']'
-            const jiraTicketRegex = /^([\[][A-Z]+-[0-9]+\])/;
+            // 1. Match between 2 and 10 'A-Z' (only capital letters)
+            // 2. Match '-'
+            // 3. Match 1 or more '0-9'
+            const jiraTicketRegex = /[A-Z]{2,10}-\d+/;
             const finalMessage = parsed.subject || parsed.header;
             return [
                 jiraTicketRegex.exec(finalMessage) !== null,
-              `Subject must start with a JIRA ticket ref like: [TTS-3222]`,
+              `Subject must start with a JIRA ticket ref like: TTS-3222`,
             ];
           },
         },
