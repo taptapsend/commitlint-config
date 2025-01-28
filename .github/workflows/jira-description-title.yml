@@ -1,0 +1,19 @@
+name: Add Jira to PR description & title
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  title-and-description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add Jira ticket to PR title / add links to PR description
+        uses: onrunning/jira-pr-action@v2
+        with:
+          jira-account: taptapsend
+          ticket-regex: |
+            \(?\[?[a-zA-Z]{2,10}-\d+\]?\)?
+          clean-title-regex: |
+            [A-Z][a-z]{1,9} \d+\/

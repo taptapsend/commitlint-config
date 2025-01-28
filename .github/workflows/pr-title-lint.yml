@@ -13,8 +13,22 @@ on:
       - 'main'
 
 jobs:
+  title-and-description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add Jira ticket to PR title / add links to PR description
+        continue-on-error: true
+        uses: onrunning/jira-pr-action@v2
+        with:
+          jira-account: taptapsend
+          ticket-regex: |
+            \(?\[?[a-zA-Z]{2,10}-\d+\]?\)?
+          clean-title-regex: |
+            [A-Z][a-z]{1,9} \d+\/
   pr-title-lint:
     runs-on: ubuntu-latest
+    needs: title-and-description
     steps:
       - name: Install Node JS
         uses: actions/setup-node@v2
