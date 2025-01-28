@@ -36,12 +36,10 @@ jobs:
       - name: Install commitlint
         run: npm install commitlint @commitlint/config-conventional
 
-      - name: Install the shared config
-        run: npm install git://github.com/taptapsend/commitlint-config.git  
-
       - name: Lint the PR title
         run: |
           (cat <<EOF
           ${{ github.event.pull_request.title }}
           EOF
-          ) | npx commitlint --config ./node_modules/commitlint-config/.commitlint.config.js
+          ) | npx commitlint --config .commitlint.config.js
+
