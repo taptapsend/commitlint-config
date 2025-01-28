@@ -23,7 +23,8 @@ jobs:
         with:
           jira-account: taptapsend
           ticket-regex: |
-            \(?\[?[a-zA-Z]{2,10}-\d+\]?\)?
+            # \(?\[?[a-zA-Z]{2,10}-\d+\]?\)?
+            AAAAAAAAAAAAA
           clean-title-regex: |
             [A-Z][a-z]{1,9} \d+\/
   pr-title-lint:
