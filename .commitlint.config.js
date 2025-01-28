@@ -14,10 +14,10 @@ module.exports = {
         rules: {
           'must-contain-jira-ticket-ref':  (parsed) => {
             // The regex for matching a JIRA ticket reference is the following:
-            // 1. Match between 2 and 10 'A-Z' (only capital letters)
+            // 1. Match between 2 and 10 'A-Z'
             // 2. Match '-'
             // 3. Match 1 or more '0-9'
-            const jiraTicketRegex = /^\[?[A-Z]{2,10}-\d+\]?/;
+            const jiraTicketRegex = /^\[?[A-Za-z]{2,10}-\d+\]?/;
             const finalMessage = parsed.subject || parsed.header;
             return [
               jiraTicketRegex.exec(finalMessage) !== null,
