@@ -17,10 +17,10 @@ module.exports = {
             // 1. Match between 2 and 10 'A-Z' (only capital letters)
             // 2. Match '-'
             // 3. Match 1 or more '0-9'
-            const jiraTicketRegex = /[A-Z]{2,10}-\d+/;
+            const jiraTicketRegex = /^[A-Z]{2,10}-\d+/;
             const finalMessage = parsed.subject || parsed.header;
             return [
-              finalMessage.startsWith(jiraTicketRegex),
+              jiraTicketRegex.exec(finalMessage) !== null,
               `Subject must start with a JIRA ticket ref like: TTS-3222`,
             ];
           },
