@@ -13,7 +13,7 @@ module.exports = {
       {
         rules: {
           'must-contain-jira-ticket-ref':  (parsed) => {
-            // The rejex for matching a JIRA ticket reference is the following:
+            // The regex for matching a JIRA ticket reference is the following:
             // 1. Match between 2 and 10 'A-Z' (only capital letters)
             // 2. Match '-'
             // 3. Match 1 or more '0-9'
