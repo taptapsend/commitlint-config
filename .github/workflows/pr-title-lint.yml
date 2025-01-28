@@ -36,6 +36,8 @@ jobs:
         uses: actions/setup-node@v2
       - name: Install commitlint
         run: npm install commitlint @commitlint/config-conventional
+      - name: Install the shared config
+        run: npm install git://github.com/taptapsend/commitlint-config.git  
       - name: Get current PR details
         id: findPr
         uses: jwalton/gh-find-current-pr@master
@@ -44,5 +46,5 @@ jobs:
           (cat <<EOF
           ${{ steps.findPr.outputs.title }}
           EOF
-          ) | npx commitlint --config .commitlint.config.js
+          ) | npx commitlint --config ./node_modules/commitlint-config/.commitlint.config.js
 
