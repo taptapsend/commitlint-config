@@ -34,14 +34,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Install Node JS
         uses: actions/setup-node@v2
-
       - name: Install commitlint
         run: npm install commitlint @commitlint/config-conventional
-
+      - name: Get current PR details
+        id: findPr
+        uses: jwalton/gh-find-current-pr@master
       - name: Lint the PR title
         run: |
           (cat <<EOF
-          ${{ github.event.pull_request.title }}
+          ${{ steps.findPr.outputs.title }}
           EOF
           ) | npx commitlint --config .commitlint.config.js
 
