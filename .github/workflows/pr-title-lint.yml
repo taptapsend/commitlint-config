@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Add Jira ticket to PR title / add links to PR description
         continue-on-error: true
-        uses: onrunning/jira-pr-action@v2
+        uses: onrunning/jira-pr-action@01969734035664e672cf51ae8c42f91331ec2d3e # v2
         with:
           jira-account: taptapsend
           ticket-regex: |
@@ -31,18 +31,20 @@ jobs:
     needs: title-and-description
     steps:
       - name: Install Node JS
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2
       - name: Install commitlint
         run: npm install commitlint @commitlint/config-conventional
       - name: Install the shared config
         run: npm install git://github.com/taptapsend/commitlint-config.git  
       - name: Get current PR details
         id: findPr
-        uses: jwalton/gh-find-current-pr@v1
+        uses: jwalton/gh-find-current-pr@f3d61b485d2801773f7a07b2aaa3306bd8f8e653 # v1
       - name: Lint the PR title
         run: |
           (cat <<EOF
-          ${{ steps.findPr.outputs.title }}
+          ${STEPS_FINDPR_OUTPUTS_TITLE}
           EOF
           ) | npx commitlint --config ./node_modules/commitlint-config/.commitlint.config.js
+        env:
+          STEPS_FINDPR_OUTPUTS_TITLE: ${{ steps.findPr.outputs.title }}
 
