@@ -1,6 +1,6 @@
 on:
   workflow_call:
-  
+
   pull_request:
     types:
       - opened
@@ -11,6 +11,9 @@ on:
       - 'master'
       - 'release'
       - 'main'
+
+permissions:
+  pull-requests: write
 
 jobs:
   title-and-description:
