@@ -28,9 +28,9 @@ jobs:
           BRANCH: ${{ github.head_ref }}
         run: |
           # Try title first, then branch name as fallback
-          TICKET_ID=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+' | head -1)
+          TICKET_ID=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
           if [ -z "$TICKET_ID" ]; then
-            TICKET_ID=$(echo "$BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -1)
+            TICKET_ID=$(echo "$BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
           fi
 
           if [ -z "$TICKET_ID" ]; then
