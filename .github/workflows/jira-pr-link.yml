@@ -1,0 +1,41 @@
+on:
+  workflow_call:
+
+jobs:
+  jira-pr-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enrich PR with Jira ticket link
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          # Try title first, then branch name as fallback
+          TICKET_ID=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+' | head -1)
+          if [ -z "$TICKET_ID" ]; then
+            TICKET_ID=$(echo "$BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -1)
+          fi
+
+          if [ -z "$TICKET_ID" ]; then
+            echo "No Jira ticket found in title or branch name, skipping"
+            exit 0
+          fi
+
+          JIRA_URL="https://taptapsend.atlassian.net/browse/$TICKET_ID"
+
+          # Prepend ticket ID to title if it's not already there (branch-name case)
+          if ! echo "$PR_TITLE" | grep -qE '[A-Z]+-[0-9]+'; then
+            gh pr edit "$PR_NUMBER" --title "[$TICKET_ID] $PR_TITLE"
+            echo "Prepended $TICKET_ID to PR title"
+          fi
+
+          # Prepend Jira link to description if not already present
+          CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body // ""')
+          if ! echo "$CURRENT_BODY" | grep -qF "$JIRA_URL"; then
+            NEW_BODY="$(printf 'Jira: %s\n\n%s' "$JIRA_URL" "$CURRENT_BODY")"
+            gh pr edit "$PR_NUMBER" --body "$NEW_BODY"
+            echo "Added Jira link to PR description"
+          fi
