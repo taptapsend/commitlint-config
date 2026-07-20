@@ -27,10 +27,15 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           BRANCH: ${{ github.head_ref }}
         run: |
+          # Project keys can contain digits (e.g. B2B), so match a letter followed
+          # by alphanumerics rather than letters only, and uppercase the result to
+          # handle lowercase branch names like b2b-2016.
+          TICKET_REGEX='[A-Za-z][A-Za-z0-9]{1,9}-[0-9]+'
+
           # Try title first, then branch name as fallback
-          TICKET_ID=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
+          TICKET_ID=$(echo "$PR_TITLE" | grep -oE "$TICKET_REGEX" | head -1 | tr '[:lower:]' '[:upper:]' || true)
           if [ -z "$TICKET_ID" ]; then
-            TICKET_ID=$(echo "$BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
+            TICKET_ID=$(echo "$BRANCH" | grep -oE "$TICKET_REGEX" | head -1 | tr '[:lower:]' '[:upper:]' || true)
           fi
 
           if [ -z "$TICKET_ID" ]; then
@@ -41,7 +46,7 @@ jobs:
           JIRA_URL="https://taptapsend.atlassian.net/browse/$TICKET_ID"
 
           # Prepend ticket ID to title if it's not already there (branch-name case)
-          if ! echo "$PR_TITLE" | grep -qE '[A-Z]+-[0-9]+'; then
+          if ! echo "$PR_TITLE" | grep -qE "$TICKET_REGEX"; then
             gh pr edit "$PR_NUMBER" --title "[$TICKET_ID] $PR_TITLE"
             echo "Prepended $TICKET_ID to PR title"
           fi
