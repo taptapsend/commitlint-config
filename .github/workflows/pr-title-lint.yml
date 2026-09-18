@@ -74,10 +74,11 @@ jobs:
         id: findPr
         uses: jwalton/gh-find-current-pr@f3d61b485d2801773f7a07b2aaa3306bd8f8e653 # v1
       - name: Lint the PR title
+        if: ${{ (github.event.pull_request.title || steps.findPr.outputs.title) != '' }}
         run: |
           (cat <<EOF
-          ${STEPS_FINDPR_OUTPUTS_TITLE}
+          ${PR_TITLE}
           EOF
           ) | npx commitlint --config ./node_modules/commitlint-config/.commitlint.config.js
         env:
-          STEPS_FINDPR_OUTPUTS_TITLE: ${{ steps.findPr.outputs.title }}
+          PR_TITLE: ${{ github.event.pull_request.title || steps.findPr.outputs.title }}
