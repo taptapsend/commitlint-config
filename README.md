@@ -19,10 +19,6 @@ You need a to create a GitHub Workflow for the repository, where you want to lin
 - Commit
 
 
-![CleanShot 2024-01-18 at 16 40 32](https://github.com/taptapsend/commitlint-config/assets/3404751/ec6f6088-72c2-4e85-8e6e-a29fd649f2f3)
-
-
-
 # How to contribute
 If you want to improve the commitlint rules, just update `.commitlint.config.js`. You can then test by installing commit lint and testing: 
 1. `npm install commitlint @commitlint/config-conventional`
